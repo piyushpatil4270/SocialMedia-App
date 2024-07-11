@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+        .posts {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .posts ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .posts li {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .postimg{
+            width: 70%;
+            height: 130px;
+        }
+        .btn1 {
+            width: 50px;
+            background-color: aqua;
+            padding: 5px;
+            border: none;
+            border-radius: 2px;
+            outline: none;
+        }
+        .posttop{
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+        .form1 {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(228, 228, 228);
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .postdiv{
+            background-color: rgb(225, 225, 225);
+            width: 300px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4%;
+            
+        }
+        .cmtuser{
+            font-size: large;
+        }
+        .cmtli{
+            display: flex;
+            gap: 15px;
+        }
+        .cmtform{
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .maindiv{
+            display: flex;
+            gap: 15px;
+           
+            justify-content: center;
+            align-items: center;
+        }
+        .cmtbtn{
+            background-color: rgb(73, 232, 73);
+            color: white;
+            border: none;
+            outline: none;
+            border-radius: 2px;
+            padding: 5px;
+        }
+    </style>
+    <title>Social-App</title>
+</head>
+<body>
+    <form class="form1" method="post" action="/post" >
+        <div class="maindiv">
+            <label for="image">Image:</label>
+            <input id="image" name="image" />
+        </div>
+       <div class="maindiv">
+        <label id="title"  >Title:</label>
+        <input id="title"name="title" />
+       </div>
+       
+
+        <button type="submit" class="btn1">Post</button>
+    </form>
+    <div class="posts">
+     <span class="posttop">All Posts</span>
+     <% posts.forEach(post => { %>
+        <li>
+            <div class="postdiv">
+            <img src="<%= post.image %>" class="postimg" alt="<%= post.title %>" />
+            <span>Title: <span></span><%= post.title %></span>
+            <ul>
+                <% post.comments.forEach(comment => { %>
+                    <li>
+                        <div class="cmtli">
+                            <span class="cmtuser"><%= comment.username %>:<span></span></span>
+                            <span><%= comment.comment %></span>
+                        </div>
+                        
+                    </li>
+                <% }); %>
+                <form class="cmtform" method="post" action="/comment">
+                 <input name="postid" value="<%= post.id %>" type="hidden"/>
+                  <input class="cmtinput" name="comment"  />
+                  <button class="cmtbtn" type="submit" >Comment</button>
+                </form>
+            </ul>
+            
+        </div>
+        </li>
+    <% }); %>
+    </div>
+    
+</body>
+</html>
