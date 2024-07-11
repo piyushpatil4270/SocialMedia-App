@@ -8,6 +8,8 @@ const app = express();
 const server = http.createServer(app);
 const Posts = require("./models/Posts");
 const Comments = require("./models/Comments");
+const postRouter=require("./routes/post")
+const commentRouter=require("./routes/comment")
 
 
 app.use(bodyParser({ extended: true }));
@@ -24,27 +26,11 @@ app.get("/", async (req, res, next) => {
   
 });
 
-app.post("/post", async (req, res, next) => {
-  const body = req.body;
-  console.log(body);
-  await Posts.create({
-    title: body.title,
-    image: body.image,
-  });
-  res.redirect("/");
-});
+app.use("/post",postRouter)
+app.use("/comment",commentRouter)
 
-app.post("/comment",async (req, res, next) => {
-  console.log(req.body);
-  const id=parseInt(req.body.postid)
-  const cmt=req.body.comment
-  const comment= await Comments.create({
-    username:"Anonymus",
-    comment:cmt,
-    postId:id
-  })
-  res.redirect("/");
-});
+
+
 
 
 
